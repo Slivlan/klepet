@@ -47,7 +47,7 @@ function procesirajVnosUporabnika(klepetApp, socket) {
         $('#sporocila').append(divElementHtmlSlika(besede[i]));
       }
       if(besede[i].substr(0,29)=='https://www.youtube.com/watch'){
-        console.log("yay");
+        //console.log("yay");
         $('#sporocila').append(divElementHtmlVideo(besede[i]));
       }
       
@@ -114,7 +114,7 @@ $(document).ready(function() {
         $('#sporocila').append(divElementHtmlSlika(besede[i]));
       }
       if(besede[i].substr(0,29)=='https://www.youtube.com/watch'){
-        console.log("yay");
+        //console.log("yay");
         $('#sporocila').append(divElementHtmlVideo(besede[i]));
       }
       
