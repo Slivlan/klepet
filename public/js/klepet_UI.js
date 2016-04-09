@@ -12,6 +12,10 @@ function divElementHtmlTekst(sporocilo) {
   return $('<div></div>').html('<i>' + sporocilo + '</i>');
 }
 
+function divElementHtmlSlika(sporocilo) {
+  return $('<div style="padding-left: 20px;"><img src="' + sporocilo + '" alt="Slika" style="width:200px;"></div>');
+}
+
 function procesirajVnosUporabnika(klepetApp, socket) {
   var sporocilo = $('#poslji-sporocilo').val();
   sporocilo = dodajSmeske(sporocilo);
@@ -22,7 +26,20 @@ function procesirajVnosUporabnika(klepetApp, socket) {
     if (sistemskoSporocilo) {
       $('#sporocila').append(divElementHtmlTekst(sistemskoSporocilo));
     }
-  } else {
+  }
+  else {
+    var novoSporocilo;
+    var besede = sporocilo.split(' ');
+    //console.log(besede);
+    for (var i = 0; i < besede.length; i++){
+      if((besede[i].substr(0, 7) == 'http://' || besede[i].substr(0, 8) == 'https://')  && (besede[i].substr(besede[i].length -4, 4)=='.jpg' || besede[i].substr(besede[i].length -4, 4)=='.png' || besede[i].substr(besede[i].length -4, 4)=='.gif')){
+        //console.log("YAY");
+        $('#sporocila').append(divElementHtmlSlika(besede[i]));
+      }
+      
+    }
+  
+  
     sporocilo = filtirirajVulgarneBesede(sporocilo);
     klepetApp.posljiSporocilo(trenutniKanal, sporocilo);
     $('#sporocila').append(divElementEnostavniTekst(sporocilo));
@@ -57,6 +74,7 @@ $(document).ready(function() {
 
   socket.on('vzdevekSpremembaOdgovor', function(rezultat) {
     var sporocilo;
+    
     if (rezultat.uspesno) {
       trenutniVzdevek = rezultat.vzdevek;
       $('#kanal').text(trenutniVzdevek + " @ " + trenutniKanal);
@@ -75,7 +93,25 @@ $(document).ready(function() {
 
   socket.on('sporocilo', function (sporocilo) {
     var novElement = divElementEnostavniTekst(sporocilo.besedilo);
+    //var besede = sporocil.split(' ');
+    //console.log(besede);
+    //for (var i = 0; i < besede.length; i++){
+    //  if((besede[i].substr(0, 7) == 'http://' || besede[i].substr(0, 8) == 'https://')  && (besede[i].substr(besede[i].length -4, 4)=='.jpg' || besede[i].substr(besede[i].length -4, 4)=='.png' || besede[i].substr(besede[i].length -4, 4)=='.gif')){
+        //console.log("YAY");
+    //    $('#sporocila').append(divElementHtmlSlika(besede[i]));
+    //  }
+      
+    //}
+    //console.log(novElement);
+    //var besede = novElement.split(' ');
+    //console.log(besede);
+    //for (var i = 0; i < besede.length; i++){
+    //  if(besede[i].substr(0, 4) == 'http' && besede[i].substr(besede[i].length -4, 3)==jpg){
+    //    alert("YAY");
+    //  }
+    //}
     $('#sporocila').append(novElement);
+    //console.log(sporocila.innerHTML);
   });
   
   socket.on('kanali', function(kanali) {
