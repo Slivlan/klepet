@@ -28,6 +28,11 @@ function procesirajVnosUporabnika(klepetApp, socket) {
     }
   }
   else {
+    sporocilo = filtirirajVulgarneBesede(sporocilo);
+    klepetApp.posljiSporocilo(trenutniKanal, sporocilo);
+    $('#sporocila').append(divElementEnostavniTekst(sporocilo));
+    $('#sporocila').scrollTop($('#sporocila').prop('scrollHeight'));
+    
     var besede = sporocilo.split(' ');
     //console.log(besede);
     for (var i = 0; i < besede.length; i++){
@@ -39,10 +44,7 @@ function procesirajVnosUporabnika(klepetApp, socket) {
     }
   
   
-    sporocilo = filtirirajVulgarneBesede(sporocilo);
-    klepetApp.posljiSporocilo(trenutniKanal, sporocilo);
-    $('#sporocila').append(divElementEnostavniTekst(sporocilo));
-    $('#sporocila').scrollTop($('#sporocila').prop('scrollHeight'));
+    
   }
 
   $('#poslji-sporocilo').val('');
@@ -95,6 +97,7 @@ $(document).ready(function() {
     var sporocilo2 = sporocilo.besedilo;
     var besede = sporocilo2.split(' ');
     //console.log(besede);
+    $('#sporocila').append(novElement);
     for (var i = 0; i < besede.length; i++){
       if((besede[i].substr(0, 7) == 'http://' || besede[i].substr(0, 8) == 'https://')  && (besede[i].substr(besede[i].length -4, 4)=='.jpg' || besede[i].substr(besede[i].length -4, 4)=='.png' || besede[i].substr(besede[i].length -4, 4)=='.gif')){
         //console.log("YAY");
@@ -103,7 +106,7 @@ $(document).ready(function() {
       
     }
     
-    $('#sporocila').append(novElement);
+    
   });
   
   socket.on('kanali', function(kanali) {
