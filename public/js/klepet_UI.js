@@ -16,6 +16,12 @@ function divElementHtmlSlika(sporocilo) {
   return $('<div style="padding-left: 20px;"><img src="' + sporocilo + '" alt="Slika" style="width:200px;"></div>');
 }
 
+function divElementHtmlVideo(sporocilo) {
+  sporocilo = sporocilo.replace("watch?v=", "v/");
+  return $('<div style="padding-left: 20px;"><iframe width="200px" height="150px" src="'+ sporocilo +'"frameborder="0" allowfullscreen></iframe></div>');
+  
+}
+
 function procesirajVnosUporabnika(klepetApp, socket) {
   var sporocilo = $('#poslji-sporocilo').val();
   sporocilo = dodajSmeske(sporocilo);
@@ -39,6 +45,10 @@ function procesirajVnosUporabnika(klepetApp, socket) {
       if((besede[i].substr(0, 7) == 'http://' || besede[i].substr(0, 8) == 'https://')  && (besede[i].substr(besede[i].length -4, 4)=='.jpg' || besede[i].substr(besede[i].length -4, 4)=='.png' || besede[i].substr(besede[i].length -4, 4)=='.gif')){
         //console.log("YAY");
         $('#sporocila').append(divElementHtmlSlika(besede[i]));
+      }
+      if(besede[i].substr(0,29)=='https://www.youtube.com/watch'){
+        console.log("yay");
+        $('#sporocila').append(divElementHtmlVideo(besede[i]));
       }
       
     }
@@ -102,6 +112,10 @@ $(document).ready(function() {
       if((besede[i].substr(0, 7) == 'http://' || besede[i].substr(0, 8) == 'https://')  && (besede[i].substr(besede[i].length -4, 4)=='.jpg' || besede[i].substr(besede[i].length -4, 4)=='.png' || besede[i].substr(besede[i].length -4, 4)=='.gif')){
         //console.log("YAY");
         $('#sporocila').append(divElementHtmlSlika(besede[i]));
+      }
+      if(besede[i].substr(0,29)=='https://www.youtube.com/watch'){
+        console.log("yay");
+        $('#sporocila').append(divElementHtmlVideo(besede[i]));
       }
       
     }
