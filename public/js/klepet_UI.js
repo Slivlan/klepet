@@ -149,6 +149,19 @@ $(document).ready(function() {
       $('#poslji-sporocilo').focus();
     });
   });
+  
+  socket.on('dregljaj', function(receiver){
+    $('#vsebina').jrumble({
+      x: 15,
+      y: 15,
+      rotation: 3
+    });
+    $('#vsebina').trigger('startRumble');
+    var timeout = 1500;
+    setTimeout(function(){
+      $('#vsebina').trigger('stopRumble');
+    }, timeout);
+  });
 
   setInterval(function() {
     socket.emit('kanali');
@@ -161,6 +174,7 @@ $(document).ready(function() {
     procesirajVnosUporabnika(klepetApp, socket);
     return false;
   });
+  
   
   
 });
